@@ -107,6 +107,7 @@ struct DockOverlayCrossPrivate
 	QColor IconColors[5];
 	bool UpdateRequired = false;
 	double LastDevicePixelRatio = 0.1;
+	int DropIndicatorSize = 0; ///< 0 = built-in size
 
 	/**
 	 * Private data constructor
@@ -175,6 +176,10 @@ struct DockOverlayCrossPrivate
      */
     qreal dropIndicatiorWidth(QLabel* l) const
     {
+        if (DropIndicatorSize > 0)
+        {
+            return static_cast<qreal>(DropIndicatorSize);
+        }
     #if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
         Q_UNUSED(l)
         return 40;
@@ -914,6 +919,23 @@ void CDockOverlayCross::updateOverlayIcons()
 #else
     d->LastDevicePixelRatio = devicePixelRatio();
 #endif
+}
+
+
+//============================================================================
+int CDockOverlayCross::dropIndicatorSize() const
+{
+	return d->DropIndicatorSize;
+}
+
+
+//============================================================================
+void CDockOverlayCross::setDropIndicatorSize(int Size)
+{
+	d->DropIndicatorSize = Size;
+	d->UpdateRequired = true;
+	// force updateOverlayIcons() to redraw the icons even if the device pixel ratio did not change
+	d->LastDevicePixelRatio = 0.1;
 }
 
 

@@ -198,6 +198,7 @@ class CDockOverlayCross : public QWidget
 	Q_PROPERTY(QColor iconOverlayColor READ iconColor WRITE setIconOverlayColor)
 	Q_PROPERTY(QColor iconArrowColor READ iconColor WRITE setIconArrowColor)
 	Q_PROPERTY(QColor iconShadowColor READ iconColor WRITE setIconShadowColor)
+	Q_PROPERTY(int dropIndicatorSize READ dropIndicatorSize WRITE setDropIndicatorSize)
 
 public:
 	enum eIconColor
@@ -225,6 +226,14 @@ protected:
      * This is a dummy function for the property system
      */
     QColor iconColor() const {return QColor();}
+
+	/**
+	 * Edge length in pixels of the drop indicator icons; 0 (the default) keeps the built-in size
+	 * (3 x font height on Windows and macOS, 40 on Linux). Settable from a style sheet:
+	 * ads--CDockOverlayCross { qproperty-dropIndicatorSize: 56; }
+	 */
+	int dropIndicatorSize() const;
+	void setDropIndicatorSize(int Size);
     void setIconFrameColor(const QColor& Color) {setIconColor(FrameColor, Color);}
     void setIconBackgroundColor(const QColor& Color) {setIconColor(WindowBackgroundColor, Color);}
     void setIconOverlayColor(const QColor& Color) {setIconColor(OverlayColor, Color);}
