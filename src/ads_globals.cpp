@@ -33,6 +33,9 @@
 #include <QAbstractButton>
 #include <QStyle>
 #include <QGuiApplication>
+#include <QCursor>
+#include <atomic>
+#include <mutex>
 
 #include "DockSplitter.h"
 #include "DockManager.h"
@@ -48,6 +51,43 @@
 
 namespace ads
 {
+
+namespace
+{
+// CursorPosProviderActive is the only thing read on the default path (no lock,
+// no allocation). The std::function is copied under the mutex when active.
+std::atomic<bool> CursorPosProviderActive{false};
+std::mutex CursorPosProviderMutex;
+CursorPosProvider CursorPosProviderFn;
+}
+
+//============================================================================
+void setCursorPosProvider(CursorPosProvider Provider)
+{
+	std::lock_guard<std::mutex> Lock(CursorPosProviderMutex);
+	CursorPosProviderFn = std::move(Provider);
+	CursorPosProviderActive.store(static_cast<bool>(CursorPosProviderFn));
+}
+
+
+//============================================================================
+QPoint cursorPos()
+{
+	if (CursorPosProviderActive.load())
+	{
+		CursorPosProvider Fn;
+		{
+			std::lock_guard<std::mutex> Lock(CursorPosProviderMutex);
+			Fn = CursorPosProviderFn;
+		}
+		if (Fn)
+		{
+			return Fn();
+		}
+	}
+	return QCursor::pos();
+}
+
 
 namespace internal
 {

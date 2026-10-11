@@ -41,6 +41,7 @@
 #include <QMouseEvent>
 
 #include <iostream>
+#include <functional>
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
 #include <xcb/xcb.h>
@@ -162,6 +163,26 @@ enum SideBarLocation
 };
 Q_ENUMS(SideBarLocation)
 
+
+/**
+ * Provider of the global pointer position. See setCursorPosProvider().
+ */
+using CursorPosProvider = std::function<QPoint()>;
+
+/**
+ * Installs a provider that replaces QCursor::pos() for every pointer read
+ * inside ADS (drop overlays, floating drags, tab and title bar drags, auto
+ * hide). Lets automation or tutorial capture drive docking drags without
+ * moving the real mouse. Pass an empty function to restore the default.
+ * Thread safe. No effect unless a provider is set.
+ */
+ADS_EXPORT void setCursorPosProvider(CursorPosProvider Provider);
+
+/**
+ * Returns the provider position when a provider is set, otherwise exactly
+ * QCursor::pos(). Used instead of QCursor::pos() throughout ADS.
+ */
+ADS_EXPORT QPoint cursorPos();
 
 namespace internal
 {

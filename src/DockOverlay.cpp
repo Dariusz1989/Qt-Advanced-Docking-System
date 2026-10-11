@@ -501,7 +501,7 @@ DockWidgetAreas CDockOverlay::allowedAreas() const
 //============================================================================
 DockWidgetArea CDockOverlay::dropAreaUnderCursor() const
 {
-	return dropAreaUnderCursor(QCursor::pos());
+	return dropAreaUnderCursor(ads::cursorPos());
 }
 
 
@@ -587,7 +587,7 @@ int CDockOverlay::tabIndexUnderCursor() const
 //============================================================================
 DockWidgetArea CDockOverlay::visibleDropAreaUnderCursor() const
 {
-	return visibleDropAreaUnderCursor(QCursor::pos());
+	return visibleDropAreaUnderCursor(ads::cursorPos());
 }
 
 
@@ -608,7 +608,7 @@ DockWidgetArea CDockOverlay::visibleDropAreaUnderCursor(const QPoint& GlobalPos)
 //============================================================================
 DockWidgetArea CDockOverlay::showOverlay(QWidget* target)
 {
-	return showOverlay(target, QCursor::pos());
+	return showOverlay(target, ads::cursorPos());
 }
 
 
@@ -1017,7 +1017,7 @@ void CDockOverlayCross::setAreaWidgets(const QHash<DockWidgetArea, QWidget*>& wi
 //============================================================================
 DockWidgetArea CDockOverlayCross::cursorLocation() const
 {
-	return cursorLocation(QCursor::pos());
+	return cursorLocation(ads::cursorPos());
 }
 
 
