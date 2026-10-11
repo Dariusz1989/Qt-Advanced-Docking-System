@@ -502,7 +502,7 @@ void CDockWidgetTab::mouseReleaseEvent(QMouseEvent* ev)
 		{
 			// Only attempt to close if the mouse is still
 			// on top of the widget, to allow the user to cancel.
-			if (rect().contains(mapFromGlobal(QCursor::pos()))) {
+			if (rect().contains(mapFromGlobal(ads::cursorPos()))) {
 				ev->accept();
 				Q_EMIT closeRequested();
 			}
@@ -822,7 +822,7 @@ void CDockWidgetTab::detachDockWidget()
 		return;
 	}
 
-	d->saveDragStartMousePosition(QCursor::pos());
+	d->saveDragStartMousePosition(ads::cursorPos());
 	d->startFloating(DraggingInactive);
 }
 

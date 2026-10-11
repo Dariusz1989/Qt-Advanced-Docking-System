@@ -563,7 +563,7 @@ void CDockAreaTitleBar::onUndockButtonClicked()
 {
 	if (d->DockArea->features().testFlag(CDockWidget::DockWidgetFloatable))
 	{
-		d->makeAreaFloating(mapFromGlobal(QCursor::pos()), DraggingInactive);
+		d->makeAreaFloating(mapFromGlobal(ads::cursorPos()), DraggingInactive);
 	}
 }
 
@@ -852,7 +852,7 @@ void CDockAreaTitleBar::setAreaFloating()
 		return;
 	}
 
-	d->makeAreaFloating(mapFromGlobal(QCursor::pos()), DraggingInactive);
+	d->makeAreaFloating(mapFromGlobal(ads::cursorPos()), DraggingInactive);
 }
 
 

@@ -58,7 +58,7 @@ struct FloatingDragPreviewPrivate
 	 */
 	QPoint cursorPos() const
 	{
-		return HasLastGlobalPos ? LastGlobalPos : QCursor::pos();
+		return HasLastGlobalPos ? LastGlobalPos : ads::cursorPos();
 	}
 
 
@@ -409,7 +409,7 @@ CFloatingDragPreview::~CFloatingDragPreview()
 //============================================================================
 void CFloatingDragPreview::moveFloating()
 {
-	moveFloating(QCursor::pos());
+	moveFloating(ads::cursorPos());
 }
 
 

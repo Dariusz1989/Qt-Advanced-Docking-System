@@ -681,7 +681,7 @@ void CAutoHideDockContainer::leaveEvent(QEvent *event)
 	// Resizing of the dock container via the resize handle in non opaque mode
 	// mays cause a leave event that is not really a leave event. Therefore
 	// we check here, if we are really outside of our rect.
-	auto pos = mapFromGlobal(QCursor::pos());
+	auto pos = mapFromGlobal(ads::cursorPos());
 	if (!rect().contains(pos))
 	{
 		d->forwardEventToDockContainer(event);

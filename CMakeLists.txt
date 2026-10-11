@@ -55,6 +55,9 @@ option(BUILD_STATIC "Build the static library" OFF)
 # Build the example applications and demo.
 option(BUILD_EXAMPLES "Build the examples" ON)
 
+# Build the unit tests (needs Qt Test).
+option(BUILD_TESTS "Build the tests" OFF)
+
 # ---------------------------------------------------------------------------
 # Platform directory
 # ---------------------------------------------------------------------------
@@ -107,4 +110,9 @@ add_subdirectory(src)
 if(BUILD_EXAMPLES)
     add_subdirectory(examples)
     add_subdirectory(demo)
+endif()
+
+if(BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
 endif()
