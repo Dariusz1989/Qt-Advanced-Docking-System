@@ -143,9 +143,14 @@ public:
 			m_CurrentWidget = nullptr;
 			m_CurrentIndex = -1;
 		}
-		else if (indexOf(Widget) < m_CurrentIndex)
+		else
 		{
-			--m_CurrentIndex;
+			if (indexOf(Widget) < m_CurrentIndex)
+			{
+				--m_CurrentIndex;
+			}
+			// a page that was current once is still our child (see setCurrentIndex): it leaves with its dock widget
+			Widget->setParent(nullptr);
 		}
 		m_Widgets.removeOne(Widget);
 	}
@@ -181,12 +186,9 @@ public:
 
 		if (m_CurrentWidget)
 		{
-			auto LayoutItem = m_ParentLayout->takeAt(1);
-			if (LayoutItem)
-			{
-				LayoutItem->widget()->setParent(nullptr);
-			}
-			delete LayoutItem;
+			// The outgoing page keeps its parent and is only hidden below: a QWidget::setParent() restyles and repolishes the
+			// whole subtree under a style sheet, once out and once back in, on every tab switch.
+			delete m_ParentLayout->takeAt(1);
 		}
 
 		m_ParentLayout->insertWidget(1, next);
